@@ -1,13 +1,14 @@
 import os
 from pathlib import Path
+from datetime import timedelta
+from dotenv import load_dotenv
 
 
-
+load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-ax%dlym71!6hg1t#rrv(tm1=^hhx)t0_+og4k6itl2p=+0wtyx'
-
+SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 ALLOWED_HOSTS = []
 
@@ -21,6 +22,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    # Custom packages
+    'secure.apps.SecureConfig'
 ]
 
 MIDDLEWARE = [
@@ -51,7 +57,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
+AUTH_USER_MODEL = 'secure.CustomUser'
 
 DATABASES = {
     'default': {
@@ -76,6 +82,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ]
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=90),
+    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=10),
+    "UPDATE_LAST_LOGIN": True,
+    "ALGORITHM": "HS256"
+}
 
 LANGUAGE_CODE = 'en-us'
 
