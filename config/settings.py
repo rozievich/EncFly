@@ -120,5 +120,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = 'encfiles/'
+MEDIA_ROOT = os.path.join(BASE_DIR / 'encfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
