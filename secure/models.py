@@ -17,7 +17,7 @@ class CustomUser(AbstractUser):
 
 
 class FileModel(models.Model):
-    file_id = models.CharField(max_length=500, default=uuid5)
+    file_id = models.CharField(max_length=500)
     file_url = models.FileField(upload_to="encrypted/")
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     file_type = models.CharField(max_length=12)
